@@ -1,12 +1,12 @@
-#pylint:disable=E0001
+
 import requests
 import time
 import calendar
 import json
 import os
-from os import  path
+from os import path
 from tqdm import tqdm
-import  re
+import re
 import cgi
 
 
@@ -37,36 +37,25 @@ def login():
 	print('----- Login to Instagram with username/email & password ----')
 	username = input('>>Username or Email: ')
 	password = input('>>Password: ')
-
 	login_headers = {"user-agent":USER_AGENT}
-
 	print(' >> Wait server authenticated login infomation.... <<')
-	login_resp = requests.get(BASE_URL,
-									headers=login_headers)
-
+	login_resp = requests.get(BASE_URL , headers=login_headers)
 	cookies = []
 	for item in login_resp.cookies:
 		cookies.append(item.name + ':' + item.value)
-
 	cookiesStr = '; '.join(map(str , cookies))
 	csrftoken = login_resp.cookies.get('csrftoken')
-
 	current_GMT = time.gmtime()
 	timestamp = str(calendar.timegm(current_GMT))
-	
 	auth_headers = {"content-type":CONTENT_TYPE,
-						     	 "user-agent":USER_AGENT,
-						     	 "x-csrftoken":csrftoken,
-						     	 "cookie":cookiesStr}
+                    "user-agent":USER_AGENT,
+                    "x-csrftoken":csrftoken,
+                    "cookie":cookiesStr}
 	form_payload = {'username':username,
-							  'enc_password':'#PWD_INSTAGRAM_BROWSER:0:'+timestamp+':'+password}
-							  			 
+                    'enc_password':'#PWD_INSTAGRAM_BROWSER:0:'+timestamp+':'+password}
 	auth_resp = requests.post(BASE_URL+LOGIN_ENDPOINT,headers=auth_headers,data=form_payload)
-
 	AuthCheck(auth_resp)
 	
-	
-
 def AuthCheck(response):
 	resp = json.loads(response.content)
 	if not resp['authenticated']:
@@ -115,8 +104,8 @@ def Scap(ssid):
 				USER_DICT = profile_json['user']
 				global PROFILE_NAME_DIR 
 				PROFILE_NAME_DIR = USER_DICT['full_name']
-				print('>>>>>>> @'+USER_DICT['full_name'])
-				print('>>>>>>> '+USER_DICT['biography'])
+				print('>>>>>>> @' + USER_DICT['full_name'])
+				print('>>>>>>> ' + USER_DICT['biography'])
 				print('>>>>>>> follower: '+str(USER_DICT['edge_followed_by']['count']))
 				print('>>>>>>> all media: ' +str(USER_DICT['edge_owner_to_timeline_media']['count']))
 				id = USER_DICT["id"]
@@ -144,7 +133,7 @@ def Real__Scrap(dict,id , ssid, header):
 	count = 0
 	NEXT_DICT = []
 	while True:
-		print('[Counting]> profile @'+dict['full_name']+' >Page: ' + str(count+1))
+		print('[Counting]> profile @'+dict['full_name'] + ' >Page: ' + str(count+1))
 		
 		if count <= 0:
 			cursor = ""
@@ -232,7 +221,7 @@ def download(url, page):
     media_path = MEDIA_DL_DIR + '/' + PROFILE_NAME_DIR 
     full_path = media_path + '/' + "Page " + str(page)
     if not os.path.exists(MEDIA_DL_DIR):
-    	 os.mkdir(MEDIA_DL_DIR)
+        os.mkdir(MEDIA_DL_DIR)
     if not os.path.exists(media_path):
     	os.mkdir(media_path)
     if not os.path.exists(full_path):
@@ -248,7 +237,7 @@ def get_filename(url):
      query_string_removed = fragment_removed.split("?")[0]
      scheme_removed = query_string_removed.split("://")[-1].split(":")[-1]
      if scheme_removed.find("/") == -1:
-       return ""
+         return ""
      return path.basename(scheme_removed)
      
        	    
