@@ -27,7 +27,7 @@ TYPESIDECAR = 'GraphSidecar'
 
 def main():
 	if os.path.exists(SSID_PATH):
-		prepareScap()
+	    prepareScap()
 	else:
  	   login()
 	      
