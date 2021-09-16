@@ -96,7 +96,7 @@ def prepareScap():
 	
 	
 def Scap(ssid):
-	profile_name = input('>>Enter profile username or profile url : ') + '/'
+	profile_name = input('>>Enter profile username : ') + '/'
 	profile_headers = {'user-agent':USER_AGENT,
 								  	'cookie':'sessionid=' + ssid}
 	print('------------- Sending request.... -------------')
