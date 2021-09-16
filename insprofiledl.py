@@ -175,18 +175,18 @@ def parse__json(isFirst , json):
 	    
 def un_login(resp):
     regex = rb"<title>\n.*Login"
-	isMatch = re.search(regex , resp , re.MULTILINE)
-	if isMatch:
+    isMatch = re.search(regex , resp , re.MULTILINE)
+    if isMatch:
 	    return True
-	else:
+    else:
     	return False
 	    
 def extract__dict(dict):
     count = 0
-	for item in dict:
+    for item in dict:
     	for edges in item['user']['edge_owner_to_timeline_media']['edges']:
-	    	extract__(edges['node'], str(count + 1))
-	    count += 1
+    		extract__(edges['node'], str(count + 1))
+    	count += 1
 	    
 def extract__image(node):
     return node['display_url']
